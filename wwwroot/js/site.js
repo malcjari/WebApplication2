@@ -1,7 +1,12 @@
 ﻿$(document).ready(() => {
 
 
-    onDateClick2();
+    $(".modal").click(function () {
+        $("#myModal").modal({
+            backdrop: 'static',
+            keyboard: false
+        });
+    });
 
     
 
