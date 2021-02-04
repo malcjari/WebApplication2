@@ -99,12 +99,12 @@ namespace WebApplication2.Controllers
 
         public void InitArbetsPass(ViewModel viewModel)
         {
-            DateTime date1 = new DateTime(2020, 01, 01);
-            DateTime date2 = new DateTime(2020, 01, 02);
-            DateTime date3 = new DateTime(2020, 01, 07);
-            DateTime date4 = new DateTime(2020, 01, 06);
-            DateTime date5 = new DateTime(2020, 01, 22);
-            DateTime date6 = new DateTime(2020, 01, 10);
+            DateTime date1 = new DateTime(2020, 2, 1);
+            DateTime date2 = new DateTime(2020, 2, 02);
+            DateTime date3 = new DateTime(2020, 2, 07);
+            DateTime date4 = new DateTime(2020, 2, 06);
+            DateTime date5 = new DateTime(2020, 2, 22);
+            DateTime date6 = new DateTime(2020, 2, 10);
 
 
             ArbetsPass arb1 = new ArbetsPass(1, date1, 1, "Reception");
