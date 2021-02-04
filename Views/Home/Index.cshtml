@@ -1,0 +1,112 @@
+﻿@model WebApplication2.Models.ViewModel 
+@{
+    ViewData["Title"] = "Index";
+
+}
+
+<h1>Index</h1>
+
+<div id="calendar" class="container">
+
+    <div id="calendar-header" style="text-align:center">
+        <div id="calendar-header-title">
+            <h4>MonthName</h4>
+        </div>
+
+        <div id="calendar-header-controller" class="row justify-content-between">
+            <a class="btn btn-outline-dark" asp-action="Index" asp-route-iDate="@{ @Model.dayData.FullDate.AddMonths(-1);}">Prev</a>
+            <a class="btn btn-outline-dark" asp-action="Index" asp-route-iDate="@{ @Model.dayData.FullDate.AddMonths(1);}">Next</a>
+
+            @*<button class="btn btn-outline-dark">prev</button>
+        <button class="btn btn-outline-dark">next</button>*@
+        </div>
+    </div>
+    
+    <div id="calendar-table-header" class="row">
+        <div class="col calendar-header-cell">
+            <h5>Monday</h5>
+        </div>
+        <div class="col calendar-header-cell">
+            <h5>Tuesday</h5>
+        </div>
+        <div class="col calendar-header-cell">
+            <h5>Wenesday</h5>
+        </div>
+        <div class="col calendar-header-cell">
+            <h5>Thursday</h5>
+        </div>
+        <div class="col calendar-header-cell">
+            <h5>Friday</h5>
+        </div>
+        <div class="col calendar-header-cell">
+            <h5>Saturday</h5>
+        </div>
+        <div class="col calendar-header-cell">
+            <h5>Sunday</h5>
+        </div>
+    </div>
+    <div class="row">
+
+        @for (int i = 0; i < Model.dayData.FirstDayOfWeek; i++)
+        {
+            <div class="col calendar-cell row-cols-7"></div>
+        }
+
+
+
+        @for (int i = 0; i < Model.dayData.Days; i++)
+        {
+            ViewBag.count++;
+            ViewBag.modalId = ViewBag.count;
+
+    <div class="col calendar-cell row-cols-7" data-toggle="modal" data-target="#modal">
+
+
+
+        @ViewBag.count
+        @{ Model.dayData.ClickedFullDate = new DateTime(Model.dayData.FullDate.Year, Model.dayData.FullDate.Month, @ViewBag.count);}
+
+        <input id="fullDate" hidden value="@Model.dayData.ClickedFullDate" />
+
+
+        @foreach (var item in Model.arbetspassList)
+        {
+
+            if (item.Date.Day == ViewBag.count)
+            {
+
+                <div id="2" class="work-shift">
+
+                    ArbetsPass
+                </div>
+            }
+        }
+
+
+
+    </div>
+
+            <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div id="modal-body" class="modal-body">
+                            
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        }
+    </div>
+</div>
+
