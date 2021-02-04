@@ -9,8 +9,11 @@ namespace WebApplication2.Models
     {
         public int Days { get; set; }
         public int FirstDayOfWeek { get; set; }
-        public DateTime FullDate { get; set; }
 
+        //Datumet som används vid ny månad
+        public DateTime FullDate { get; set; }
+        
+        //Datumet som används vid click-events
         public DateTime ClickedFullDate { get; set; }
         public string MonthName { get; set; }
     }

@@ -1,8 +1,9 @@
 ﻿$(document).ready(() => {
 
 
-    onDateClick();
+    onDateClick2();
 
+    
 
 
 
@@ -16,7 +17,16 @@ function onDateClick() {
         
         $("#modal-body").html(date);
 
+    })
 
+
+}
+
+function onDateClick2() {
+
+    $(".calendar-cell").click(function (e) {
+
+        console.log(e.currentTarget)
     })
 
 

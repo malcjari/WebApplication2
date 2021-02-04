@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -14,42 +15,60 @@ namespace WebApplication2.Controllers
         {
 
             ViewModel viewModel = new ViewModel();
+            //Skapar alla arbetspass och lägger i viewModelListan
             InitArbetsPass(viewModel);
 
             
             ViewBag.count = 0;
-            ViewBag.modalId = "";
 
+
+            //Om ett datum skickas med i metoden körs detta
             if (iDate.Year != 0001)
             {
-
+                //Slänger in valt datum i DateMapper som plockar ut relevanta värden
                 viewModel.dayData.FirstDayOfWeek = DateMapper(iDate, viewModel);
                 viewModel.dayData.FullDate = iDate;
+                
 
             } else
             {
+                //Om inget datum har valts, körs denna med dagens datum. Detta är default
+
+
                 DateTime date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
                 viewModel.dayData.FullDate = date;
                 viewModel.dayData.FirstDayOfWeek = DateMapper(date, viewModel);
             }
-            
-            
 
 
+
+            //Initierar och skapar select listor för formuläret
+            Dictionary<int, string> shiftDict = InitShiftList();
+            SelectList shiftList = new SelectList(shiftDict, "Key", "Value");
+            Dictionary<int, string> taskDict = InitTaskList();
+            SelectList taskList = new SelectList(taskDict, "Key", "Value");
+
+
+            ViewBag.shiftList = shiftList;
+            ViewBag.taskList = taskList;
 
             return View(viewModel);
         }
 
         public int DateMapper(DateTime date, ViewModel viewModel)
         {
-
+            //Hämtar månadens första dag
             string day = date.DayOfWeek.ToString();
+            //Hämtar antalet dagar i månaden
             viewModel.dayData.Days = DateTime.DaysInMonth(date.Year, date.Month);
-            //viewModel.dayData.MonthName = DateTime.GetMonth
+            //Hämtar månadens namn i en sträng för användning i kalenderns header
+            viewModel.dayData.MonthName = DateTimeFormatInfo.CurrentInfo.GetMonthName(date.Month);
 
 
             int number = 0;
 
+
+            //Gör om månadens första dag till ett värde som gör att kalenderna synkas rätt och startar på rätt ställe
             switch (day)
             {
                 case "Monday":
@@ -94,6 +113,7 @@ namespace WebApplication2.Controllers
             ArbetsPass arb4 = new ArbetsPass(1, date4, 2, "Förberedelse");
             ArbetsPass arb5 = new ArbetsPass(1, date5, 3, "Förberedelse");
             ArbetsPass arb6 = new ArbetsPass(1, date6, 3, "Vakt");
+            ArbetsPass arb7 = new ArbetsPass(1, date1, 2, "Vakt");
 
             viewModel.arbetspassList.Add(arb1);
             viewModel.arbetspassList.Add(arb2);
@@ -101,6 +121,28 @@ namespace WebApplication2.Controllers
             viewModel.arbetspassList.Add(arb4);
             viewModel.arbetspassList.Add(arb5);
             viewModel.arbetspassList.Add(arb6);
+            viewModel.arbetspassList.Add(arb7);
+        }
+
+        public Dictionary<int, string> InitShiftList()
+        {
+            Dictionary<int, string> returnList = new Dictionary<int, string>();
+
+            returnList.Add(1, "Day");
+            returnList.Add(2, "Evening");
+            returnList.Add(0, "Night");
+
+            return returnList;
+        }
+
+        public Dictionary<int, string> InitTaskList()
+        {
+            Dictionary<int, string> returnList = new Dictionary<int, string>();
+
+            returnList.Add(1, "Reception");
+            returnList.Add(2, "Cleaning");
+
+            return returnList;
         }
     }
 }
