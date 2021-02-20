@@ -11,12 +11,15 @@ namespace WebApplication2.Controllers
 {
     public class HomeController : Controller
     {
+        public List<ArbetsPass> list = new List<ArbetsPass>();
         public IActionResult Index(DateTime iDate)
         {
 
             ViewModel viewModel = new ViewModel();
             //Skapar alla arbetspass och lägger i viewModelListan
-            InitArbetsPass(viewModel);
+
+            InitArbetsPass(list);
+            viewModel.arbetspassList = list;
 
             
             ViewBag.count = 0;
@@ -43,6 +46,8 @@ namespace WebApplication2.Controllers
             //Sorterar arbetspass efer aktiv månad
             viewModel.arbetspassList = viewModel.arbetspassList.Where(ap => ap.Date.Month == viewModel.dayData.Month).ToList();
 
+
+
             //Initierar och skapar select listor för formuläret
             Dictionary<int, string> shiftDict = InitShiftList();
             SelectList shiftList = new SelectList(shiftDict, "Key", "Value");
@@ -56,6 +61,19 @@ namespace WebApplication2.Controllers
             return View(viewModel);
         }
 
+
+        public IActionResult Delete( int id)
+        {
+            list.Remove(list.Where(ws => ws.Id == id).FirstOrDefault());
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Add(ArbetsPass arbetspass)
+        {
+            
+            return RedirectToAction("Index");
+        }
+
         public int DateMapper(DateTime date, ViewModel viewModel)
         {
             //Hämtar månadens första dag
@@ -63,9 +81,11 @@ namespace WebApplication2.Controllers
             //Hämtar antalet dagar i månaden
             viewModel.dayData.Days = DateTime.DaysInMonth(date.Year, date.Month);
             //Hämtar månadens namn i en sträng för användning i kalenderns header
-            viewModel.dayData.MonthName = DateTimeFormatInfo.CurrentInfo.GetMonthName(date.Month);
+            viewModel.dayData.MonthName = DateTimeFormatInfo.CurrentInfo.GetMonthName(date.Month).ToUpper();
             //Hämtar månadens nr för att sortera arbetspass efter detta numret och visa rätt pass för rätt månad
             viewModel.dayData.Month = date.Month;
+            DateTime todaysDate = DateTime.Now;
+            viewModel.dayData.TodaysDate = todaysDate.Day;
 
 
             int number = 0;
@@ -107,7 +127,7 @@ namespace WebApplication2.Controllers
             return list;
         }
 
-        public void InitArbetsPass(ViewModel viewModel)
+        public void InitArbetsPass(List<ArbetsPass> list)
         {
             DateTime date1 = new DateTime(2020, 2, 1);
             DateTime date2 = new DateTime(2020, 2, 02);
@@ -117,13 +137,14 @@ namespace WebApplication2.Controllers
             DateTime date6 = new DateTime(2020, 2, 10);
 
 
+
             ArbetsPass arb1 = new ArbetsPass(1, date1, 1, "Reception");
-            ArbetsPass arb2 = new ArbetsPass(1, date2, 1, "Cleaning");
-            ArbetsPass arb3 = new ArbetsPass(1, date3, 2, "Reception");
-            ArbetsPass arb4 = new ArbetsPass(1, date4, 2, "Preperations");
-            ArbetsPass arb5 = new ArbetsPass(1, date5, 3, "Preperations");
-            ArbetsPass arb6 = new ArbetsPass(1, date6, 3, "Guard-duty");
-            ArbetsPass arb7 = new ArbetsPass(1, date1, 2, "Guard-duty");
+            ArbetsPass arb2 = new ArbetsPass(2, date2, 1, "Cleaning");
+            ArbetsPass arb3 = new ArbetsPass(3, date3, 2, "Reception");
+            ArbetsPass arb4 = new ArbetsPass(4, date4, 2, "Preperations");
+            ArbetsPass arb5 = new ArbetsPass(5, date5, 3, "Preperations");
+            ArbetsPass arb6 = new ArbetsPass(6, date6, 3, "Guard-duty");
+            ArbetsPass arb7 = new ArbetsPass(7, date1, 2, "Guard-duty");
 
             DateTime date11 = new DateTime(2020, 3, 1);
             DateTime date12 = new DateTime(2020, 3, 03);
@@ -133,28 +154,28 @@ namespace WebApplication2.Controllers
             DateTime date16 = new DateTime(2020, 3, 24);
 
 
-            ArbetsPass arb11 = new ArbetsPass(1, date11, 1, "Reception");
-            ArbetsPass arb12 = new ArbetsPass(1, date12, 1, "Cleaning");
-            ArbetsPass arb13 = new ArbetsPass(1, date13, 2, "Reception");
-            ArbetsPass arb14 = new ArbetsPass(1, date14, 2, "Preperations");
-            ArbetsPass arb15 = new ArbetsPass(1, date15, 3, "Preperations");
-            ArbetsPass arb16 = new ArbetsPass(1, date16, 3, "Guard-duty");
-            ArbetsPass arb17 = new ArbetsPass(1, date16, 2, "Guard-duty");
+            ArbetsPass arb11 = new ArbetsPass(11, date11, 1, "Reception");
+            ArbetsPass arb12 = new ArbetsPass(12, date12, 1, "Cleaning");
+            ArbetsPass arb13 = new ArbetsPass(13, date13, 2, "Reception");
+            ArbetsPass arb14 = new ArbetsPass(14, date14, 2, "Preperations");
+            ArbetsPass arb15 = new ArbetsPass(15, date15, 3, "Preperations");
+            ArbetsPass arb16 = new ArbetsPass(16, date16, 3, "Guard-duty");
+            ArbetsPass arb17 = new ArbetsPass(17, date16, 2, "Guard-duty");
 
-            viewModel.arbetspassList.Add(arb1);
-            viewModel.arbetspassList.Add(arb2);
-            viewModel.arbetspassList.Add(arb3);
-            viewModel.arbetspassList.Add(arb4);
-            viewModel.arbetspassList.Add(arb5);
-            viewModel.arbetspassList.Add(arb6);
-            viewModel.arbetspassList.Add(arb7);
-            viewModel.arbetspassList.Add(arb11);
-            viewModel.arbetspassList.Add(arb12);
-            viewModel.arbetspassList.Add(arb13);
-            viewModel.arbetspassList.Add(arb14);
-            viewModel.arbetspassList.Add(arb15);
-            viewModel.arbetspassList.Add(arb16);
-            viewModel.arbetspassList.Add(arb17);
+            list.Add(arb1);
+            list.Add(arb2);
+            list.Add(arb3);
+            list.Add(arb4);
+            list.Add(arb5);
+            list.Add(arb6);
+            list.Add(arb7);
+            list.Add(arb11);
+            list.Add(arb12);
+            list.Add(arb13);
+            list.Add(arb14);
+            list.Add(arb15);
+            list.Add(arb16);
+            list.Add(arb17);
         }
 
         public Dictionary<int, string> InitShiftList()

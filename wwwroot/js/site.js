@@ -1,15 +1,8 @@
-﻿$(document).ready(() => {
+﻿$(document).ready(function() {
 
-
-    $(".modal").click(function () {
-        $("#myModal").modal({
-            backdrop: 'static',
-            keyboard: false
-        });
-    });
 
     
-
+   // onAddClick();
 
 
 })
@@ -25,6 +18,28 @@ function onDateClick() {
     })
 
 
+}
+
+function onAddClick() {
+
+    $("#addBtn").click(function(e) {
+        console.log('trigg')
+        e.preventDefault();
+
+        let date = $("#dateSelect").val
+        let shift = $('#shiftSelect').val
+        let task = $('#taskSelect').val
+
+        $.post("Home/Add",
+            {
+                "Date": date,
+                "Task": task,
+                "Shift": shift
+            },
+            function (data) {
+
+        })
+    })
 }
 
 function onDateClick2() {

@@ -86,18 +86,18 @@ body {
     max-width: 14.28571428571429%;
 }
 
-.day-shift {
-    border: 1px solid black;
+/*.day-shift {
+    border: 0.5px solid black;
     background-color: rgba(27, 110, 194, 0.40);
     color: white;
     font-size: 10px;
     font-weight: bold;
     text-align: center;
     border-radius: 3px;
-}
+}*/
 
-.evening-shift {
-    border: 1px solid black;
+/*.evening-shift {
+    border: 0.5px solid black;
     background-color: rgba(255, 106, 0, 0.40);
     color: white;
     font-size: 10px;
@@ -107,13 +107,47 @@ body {
 }
 
 .night-shift {
-    border: 1px solid black;
+    border: 0.5px solid black;
     background-color: rgba(255, 0, 220, 0.30);
     color: white;
     font-size: 10px;
     font-weight: bold;
     text-align: center;
     border-radius: 3px;
+}*/
+
+.day-shift {
+    border: 0.5px solid black;
+    background-color: rgb(128, 128, 128);
+    color: white;
+    font-size: 10px;
+    /*font-weight: bold;*/
+    text-align: center;
+    border-radius: 3px;
+}
+
+.evening-shift {
+    border: 0.5px solid black;
+    background-color: rgb(91, 91, 91);
+    color: white;
+    font-size: 10px;
+    /*font-weight: bold;*/
+    text-align: center;
+    border-radius: 3px;
+}
+
+.night-shift {
+    border: 0.5px solid black;
+    background-color: rgb(51, 51, 51);
+    color: white;
+    font-size: 10px;
+    /*font-weight: bold;*/
+    text-align: center;
+    border-radius: 3px;
+}
+
+.todays-date{
+    border: 1px solid #1861ac;
 }
 
 table{

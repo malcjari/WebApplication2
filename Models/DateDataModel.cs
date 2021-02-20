@@ -10,6 +10,7 @@ namespace WebApplication2.Models
         public int Days { get; set; }
         public int FirstDayOfWeek { get; set; }
 
+        public int TodaysDate { get; set; }
         public int Month { get; set; }
 
         //Datumet som används vid ny månad

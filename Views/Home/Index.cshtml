@@ -15,8 +15,10 @@
 
         @*Kalenderns knappar*@
         <div id="calendar-header-controller" class="row justify-content-between">
-            <a class="btn btn-outline-dark" asp-action="Index" asp-route-iDate="@{ @Model.dayData.FullDate.AddMonths(-1);}">Prev</a>
-            <a class="btn btn-outline-dark" asp-action="Index" asp-route-iDate="@{ @Model.dayData.FullDate.AddMonths(1);}">Next</a>
+
+
+            <a asp-action="Index" asp-route-iDate="@{ @Model.dayData.FullDate.AddMonths(-1);}"> <img class="my-1 vw-90" src="~/arrow-left-square.svg" /></a>
+            <a asp-action="Index" asp-route-iDate="@{ @Model.dayData.FullDate.AddMonths(1);}"> <img class="my-1 vw-90" src="~/arrow-right-square.svg" /></a>
 
             @*<button class="btn btn-outline-dark">prev</button>
                 <button class="btn btn-outline-dark">next</button>*@
@@ -26,25 +28,25 @@
     @*Veckodagarnas namn*@
     <div id="calendar-table-header" class="row">
         <div class="col calendar-header-cell">
-            <h5>Monday</h5>
+            <h5>Måndag</h5>
         </div>
         <div class="col calendar-header-cell">
-            <h5>Tuesday</h5>
+            <h5>Tisdag</h5>
         </div>
         <div class="col calendar-header-cell">
-            <h5>Wenesday</h5>
+            <h5>Onsdag</h5>
         </div>
         <div class="col calendar-header-cell">
-            <h5>Thursday</h5>
+            <h5>Torsdag</h5>
         </div>
         <div class="col calendar-header-cell">
-            <h5>Friday</h5>
+            <h5>Fredag</h5>
         </div>
         <div class="col calendar-header-cell">
-            <h5>Saturday</h5>
+            <h5>Lördag</h5>
         </div>
         <div class="col calendar-header-cell">
-            <h5>Sunday</h5>
+            <h5>Söndag</h5>
         </div>
     </div>
     <div class="row">
@@ -63,12 +65,24 @@
             //Ökar siffran med ett så att datumet blir rätt för varje cell
             ViewBag.count++;
 
+            if (ViewBag.count == Model.dayData.TodaysDate)
+            {
+
+            } else
+            {
+
+            }
+
             <div class="col calendar-cell row-cols-7" data-toggle="modal" data-target="#id-@ViewBag.count">
 
-                @*Skriver ut rätt datum för varje cell i kalendern*@
-                @ViewBag.count
-                @{ Model.dayData.ClickedFullDate = new DateTime(Model.dayData.FullDate.Year, Model.dayData.FullDate.Month, @ViewBag.count);}
+                <div >
+                    @*Skriver ut rätt datum för varje cell i kalendern*@
+                    @ViewBag.count
+                    @{ Model.dayData.ClickedFullDate = new DateTime(Model.dayData.FullDate.Year, Model.dayData.FullDate.Month, @ViewBag.count);}
+                </div>
+                
 
+                
                 <div class="row row-cols-1">
 
                     @*Skriver ut rätt arbetspass för rätt datum*@
@@ -78,15 +92,27 @@
                         {
                             if (item.Shift == 1)
                             {
-                                <div class="day-shift col order-first">Day-shift</div>
+                                <div class="day-shift col order-first">
+                                    <div>
+                                        Dagsskift
+                                    </div>
+                                </div>
                             }
                             else if (item.Shift == 2)
                             {
-                                <div class="evening-shift col align-self-center">Evening-shift</div>
+                                <div class="evening-shift col align-self-center">
+                                    <div>
+                                        Kvällsskift
+                                    </div>
+                                </div>
                             }
                             else
                             {
-                                <div class="night-shift col order-last">Night-shift</div>
+                                <div class="night-shift col order-last">
+                                    <div>
+                                        Nattskift
+                                    </div>
+                                </div>
                             }
                         }
                     }
@@ -104,9 +130,10 @@
                             </button>
                         </div>
                         <div class="modal-body">
-                            <input type="date" class="form-control mb-2" asp-for="dayData.ClickedFullDate" />
-                            <select class="custom-select mb-2" asp-for="arbetspass.Shift" asp-items="ViewBag.shiftList"></select>
-                            <select class="custom-select" asp-for="arbetspass.Shift" asp-items="ViewBag.taskList"></select>
+                            @Html.EditorFor(m => m.arbetspass.Date)
+                            @*<input id="dateSelect" type="date" class="form-control mb-2" asp- asp-for="arbetspass.Date" value="@Model.dayData.ClickedFullDate.ToString("yyyy-MM-dd")" />*@
+                            <select id="shiftSelect" class="custom-select mb-2" asp-for="arbetspass.Shift" asp-items="ViewBag.shiftList"></select>
+                            <select id="taskSelect" class="custom-select" asp-for="arbetspass.Shift" asp-items="ViewBag.taskList"></select>
                         </div>
                         <div class="modal-body">
                             <hr />
@@ -129,7 +156,7 @@
                                                     <td>@item.Date.ToString("yyyy-MM-dd")</td>
                                                     <td>@item.Shift</td>
                                                     <td>@item.Task</td>
-                                                    <td>Delete</td>
+                                                    <td><a asp-action="Delete" asp-controller="Home" asp-route-id="@item.Id"><img src="~/trash-fill.svg" /></a></td>
                                                 </tr>
                                             }
 
@@ -141,7 +168,9 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                            <button type="button" class="btn btn-primary">Add</button>
+                            @*<button id="addBtn" class="btn btn-dark">Add</button>*@
+                            <a asp-action="Add" asp-controller="Home" asp-route-arbetspass="arbetspass" class="btn btn-primary">Add</a>
+                            @*<button asp-action="Add" asp-controller="Home" asp-route-arbetspass="@Model.arbetspass" type="button" class="btn btn-primary">Add</button>*@
                         </div>
                     </div>
                 </div>
